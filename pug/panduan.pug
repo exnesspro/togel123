@@ -1,0 +1,101 @@
+extends templates/layout
+
+block styles
+  link(rel="stylesheet" href="../css/style.css")
+
+  <!--[if IE 8]>
+    link(rel="stylesheet" href="../css/ie-style.css")
+  <![endif]-->
+  <!--[if IE 9]>
+    link(rel="stylesheet" href="../css/ie-style.css")
+  <![endif]-->
+
+
+block content
+  - var label = "Panduan"
+
+  include templates/top-layout
+
+  section.main-content
+    .container
+      #main-links
+        a.active(data-index="0") Game Live Dingdong
+        a(data-index="1") Game Togel
+        a(data-index="2") Panduan Lainnya
+        a(data-index="3") Akses Mobile &amp; WAP
+
+      #main-content
+        .tab-content.active
+          include panduan/gld
+
+        .tab-content
+          include panduan/gt
+
+        .tab-content
+          include panduan/lainnya
+
+        .tab-content
+          .mobwap
+            .mobwap--content
+              p.mobwap-title Mobile
+              p.mobwap-content nusatogel.com menyediakan panel betting yang mudah untuk anda mainkan di mobile / handphone / smartphone anda. Anda dapat mengunjungi situs http://m.nusatogel.com, rasakan kenyamanannya dengan design yang sudah kami sempurnakan untuk pengalaman judi togel memuaskan.
+
+            .mobwap--content
+              p.mobwap-title WAP
+              p.mobwap-content Anda pun dapat mengakses situs http://wap.nusatogel.com kami yang lebih cocok untuk anda akses apabila anda menggunakan handphone/mobile yang masih memiliki kendala / berat untuk mengakses situs mobile m.nusatogel.com kami.
+
+  include templates/welcome
+  include templates/footer
+  include templates/modal
+
+block scripts
+  script(src="../js/tweenmax.js")
+  script(src="../js/app.js")
+  script(src="../js/links.js")
+
+  script.
+    var _tabLinks = document.querySelectorAll(".tab-link--of--tab-content"),
+      _gldContent = document.querySelectorAll(".gld-content"),
+      _isAnimatingSubTab = false;
+
+    for (var i = 0, e = _tabLinks; i < e.length; i++) {
+      for (var t = 0, p = e[i].children; t < p.length; t++) {
+        p[t].onclick = function() {
+          if (!this.classList.contains("tab-active") && !_isAnimatingSubTab) {
+            _isAnimatingSubTab = !_isAnimatingSubTab;
+            this.parentNode.querySelector(".tab-active").classList.remove("tab-active");
+            this.classList.add("tab-active");
+
+            var _index = this.getAttribute("data-index"),
+              _contentParent = this.parentNode.nextElementSibling,
+              _currentActive = _contentParent.querySelector(".tab-content-v2-active"),
+              _nextActive = _contentParent.children[_index];
+
+            _nextActive.style.display = "block";
+
+            TweenMax.to(_currentActive, 0.3, {
+              opacity: 0,
+              onComplete: function() {
+                _currentActive.classList.remove("tab-content-v2-active");
+
+                _currentActive.style.display = "none";
+              }
+            });
+
+            TweenMax.to(_nextActive, 0.3, {
+              opacity: 1,
+              onComplete: function() {
+                _nextActive.classList.add("tab-content-v2-active");
+                _isAnimatingSubTab = !_isAnimatingSubTab;
+              }
+            });
+          }
+        }
+      }
+    }
+
+    for (var i = 0, e = _gldContent; i < e.length; i++) {
+      e[i].onscroll = function() {
+        TweenMax.to(this.children[0].children[1], 0, {top: this.scrollTop});
+      }
+    }

@@ -1,0 +1,26 @@
+.tab-link--of--tab-content
+  a.tab-active(data-index="0") Pendaftaran
+  a(data-index="1") Deposit
+  a(data-index="2") Withdraw
+  a(data-index="3") Tidak Bisa Login
+  a(data-index="4") Lupa Password
+  a(data-index="5") Memo
+
+.tab-content--of--tab-content-v2
+  .tab-content-v2.tab-content-v2-active
+    include lainnya/pendaftaran
+
+  .tab-content-v2
+    include lainnya/deposit
+
+  .tab-content-v2
+    include lainnya/withdraw
+
+  .tab-content-v2
+    include lainnya/tidakbisalogin
+    
+  .tab-content-v2
+    include lainnya/lupapassword
+
+  .tab-content-v2
+    include lainnya/memo
